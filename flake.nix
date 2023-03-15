@@ -117,6 +117,11 @@
           # symlinking breaks Bazel inclusion checks, so have to copy
           cp -a --reflink=auto ${toolchain} usr/local/${target}
         '';
+        profile = ''
+          # save input store paths in the environment so they are not gc'ed needlessly
+          export _NIXPKGS_STORE_PATH=${nixpkgs.outPath}
+          export _FLAKE_PARTS_STORE_PATH=${parts.outPath}
+        '';
       }).env;
     };
   });
